@@ -1,0 +1,36 @@
+#  Arquivos de configuração de ambiente
+.env
+.env.local
+.env.*.local
+
+#  Dependências e pacotes
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+#  Arquivos do sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+#  Editores e IDEs
+.vscode/
+.idea/
+*.iml
+
+#  Logs e temporários
+logs/
+*.log
+*.tmp
+*.cache
+
+#  Bancos de dados locais
+*.db
+*.sqlite
+
+#  Chaves e certificados
+*.pem
+*.key
+*.crt
