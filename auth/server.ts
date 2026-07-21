@@ -31,6 +31,16 @@ app.post("/login", (req, res) => {
 
 });
 
+app.post("/register", async (req, res) => {
+
+    const { name, email, password } = req.body;
+
+    res.status(201).json({
+        message: "Usuário criado com sucesso!"
+    });
+
+});
+
 app.listen(3000);
 
 app.get("/perfil", auth, (req, res) => {
