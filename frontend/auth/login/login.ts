@@ -1,44 +1,83 @@
-const form = document.getElementById("loginForm") as HTMLFormElement;
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import * as bcrypt from "bcrypt";
+import { Usuario } from "../../../backend/src/models/UsuarioModel";
+import dotenv from "dotenv";
 
-form.addEventListener("submit", async (event)=>{
-    event.preventDefault();
+dotenv.config();
 
-    const email = (document.getElementById("email") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement).value;
+export async function login(req:Request, res:Response) {
 
-    try {
+    const {
+        email,
+        senha
+    } = req.body;
 
-        const response = await fetch("http://localhost:3000/login", {
+    const usuario = await Usuario.findOne({
+        email
+    });
 
-            method: "POST",
+    if (!usuario) {
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        return res.status(401).json({
 
-            body: JSON.stringify({
-                email,
-                password
-            })
+            message: "Credenciais inválidas."
 
         });
 
-        const data = await response.json();
+    }
 
-        if (!response.ok) {
-            alert(data.message);
-            return;
-        }
+    const senhaValida = await bcrypt.compare(
+        senha,
+        usuario.senha
+    );
 
-        localStorage.setItem("token", data.token);
+    if (!senhaValida) {
 
-        alert("Login realizado!");
+        return res.status(401).json({
 
-        window.location.href = "home.html";
+            message: "Credenciais inválidas."
 
-    } catch (error) {
-
-        console.error(error);
+        });
 
     }
-} )
+    
+    const token = jwt.sign(
+
+        {
+
+            id: usuario.id,
+
+            email: usuario.email,
+
+            tipoUsuario: usuario.tipoUsuario
+
+        },
+
+        process.env.JWT_SECRET!,
+
+        {
+
+            expiresIn: "1h"
+
+        }
+
+    );
+
+    return res.json({
+
+        token,
+
+        usuario: {
+
+            id: usuario.id,
+
+            nome: usuario.nome,
+
+            email: usuario.email
+
+        }
+
+    });
+
+}

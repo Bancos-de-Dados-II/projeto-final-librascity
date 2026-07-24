@@ -1,37 +1,75 @@
-const rform = document.getElementById("registerForm") as HTMLFormElement;
+import { Request, Response } from "express";
+import * as bcrypt from "bcrypt";
+import { Usuario } from "../../../backend/src/models/UsuarioModel";
 
-rform.addEventListener("submit", async (e: Event) => {
-    e.preventDefault();
-
-    const name = (document.getElementById("name") as HTMLInputElement).value;
-    const email = (document.getElementById("email") as HTMLInputElement).value;
-    const password = (document.getElementById("password") as HTMLInputElement).value;
+export async function register(req: Request, res: Response) {
 
     try {
-        const response = await fetch("http://localhost:3000/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name,
-                email,
-                password
-            })
+
+        const {
+            nome,
+            email,
+            senha,
+            telefone
+        } = req.body;
+
+        const usuarioExiste = await Usuario.findOne({
+            email
         });
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.message || "Erro ao cadastrar usuário.");
-            return;
+        if (usuarioExiste) {
+            return res.status(400).json({
+                message: "E-mail já cadastrado."
+            });
         }
 
-        alert("Usuário cadastrado com sucesso!");
-        window.location.href = "login.html";
+        const senhaHash = await bcrypt.hash(senha, 10);
+
+        const ultimoUsuario = await Usuario.findOne()
+            .sort({ id: -1 });
+
+        const novoUsuario = await Usuario.create({
+
+            id: ultimoUsuario
+                ? ultimoUsuario.id + 1
+                : 1,
+
+            nome,
+
+            email,
+
+            senha: senhaHash,
+
+            telefone,
+
+            tipoUsuario: "usuario",
+
+            status: "ativo"
+
+        });
+
+        return res.status(201).json({
+
+            message: "Usuário criado.",
+
+            usuario: {
+
+                id: novoUsuario.id,
+
+                nome: novoUsuario.nome,
+
+                email: novoUsuario.email
+
+            }
+
+        });
 
     } catch (error) {
-        console.error("Erro na requisição:", error);
-        alert("Erro de conexão com o servidor. Tente novamente.");
+
+        return res.status(500).json({
+            message: "Erro interno."
+        });
+
     }
-});
+
+}
