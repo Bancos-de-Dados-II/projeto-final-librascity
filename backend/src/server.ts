@@ -58,7 +58,7 @@ app.get('/perfil', auth, (req, res) => {
   res.json({ nome: 'Usuário autenticado', email: req.body.email });
 });
 
-import estabelecimentosRoutes from './routes/estabelecimentos';
+import estabelecimentosRoutes from './routes/estabelecimentosRoutes';
 app.use('/estabelecimentos', estabelecimentosRoutes);
 
 app.get('/ping', (req, res) => {
