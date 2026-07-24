@@ -1,28 +1,9 @@
 import express, { Request, Response, Router } from 'express';
-import { Estabelecimento } from '../models/Estabelecimento';
+import { Estabelecimento } from '../models/EstabelecimentoModel';
+import { syncEstabelecimento, deleteEstabelecimento } from '../services/postgres/estabelecimentoService';
+import { getCache, setCache, invalidateCache } from '../services/redis/cacheService';
 
 const router: Router = express.Router();
-
-const syncEstabelecimento = async (dados: any): Promise<void> => {
-  console.log('[STUB] syncEstabelecimento chamado com:', dados.nome);
-};
-
-const deleteEstabelecimento = async (id: string): Promise<void> => {
-  console.log('[STUB] deleteEstabelecimento chamado para ID:', id);
-};
-
-const getCache = async (key: string): Promise<any> => {
-  console.log('[STUB] getCache chamado para chave:', key);
-  return null;
-};
-
-const setCache = async (key: string, value: any): Promise<void> => {
-  console.log('[STUB] setCache chamado para chave:', key);
-};
-
-const invalidateCache = async (pattern: string): Promise<void> => {
-  console.log('[STUB] invalidateCache chamado para padrão:', pattern);
-};
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {
   try {
@@ -107,7 +88,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
     const atualizado = await Estabelecimento.findByIdAndUpdate(
       id,
       req.body,
-      { new: true, runValidators: true }
+      { returnDocument: 'after', runValidators: true }
     );
     if (!atualizado) {
       res.status(404).json({ erro: 'Não encontrado' });
