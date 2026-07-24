@@ -5,6 +5,7 @@ interface IUsuario extends Document
     id: number;
     nome: string;
     email: string;
+    senha: string;
     fotoPerfilUrl: string;
     telefone: Number;
     tipoUsuario: string;
@@ -28,6 +29,14 @@ const UsuarioSchema = new Schema<IUsuario>(
         email: {
             type: String,
             required: true,
+            unique: true,
+            lowercase: true,
+            trim: true
+        },
+        
+        senha: {
+        type: String,
+        required: true
         },
 
         fotoPerfilUrl: {

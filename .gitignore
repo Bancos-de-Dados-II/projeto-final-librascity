@@ -10,6 +10,7 @@ yarn-error.log
 package-lock.json
 yarn.lock
 
+
 #  Arquivos do sistema
 .DS_Store
 Thumbs.db
