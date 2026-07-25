@@ -11,13 +11,15 @@ interface IUsuario extends Document
     tipoUsuario: string;
     dataCadast: Date;
     status: string;
+    latitude?: number;
+    longitude?: number;
+    dataAtualizacaoLocalizacao?: Date;
 }
 
 const UsuarioSchema = new Schema<IUsuario>(
     {
         id: {
             type: Number,
-            required: true,
         },
 
         nome: {
@@ -63,6 +65,18 @@ const UsuarioSchema = new Schema<IUsuario>(
             type: String,
             required: true,
             trim: true,
+        },
+
+        latitude: {
+            type: Number,
+        },
+
+        longitude: {
+            type: Number,
+        },
+
+        dataAtualizacaoLocalizacao: {
+            type: Date,
         }
     },
 );

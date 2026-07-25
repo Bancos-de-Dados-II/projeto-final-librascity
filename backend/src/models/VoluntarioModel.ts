@@ -6,6 +6,8 @@ interface IVonluntario extends Document
     idInterprete: number;
     experiencia: string;
     disponibilidade: string;
+    statusOnline: boolean;
+
 }
 
 const vonluntarioSchema = new Schema<IVonluntario>(
@@ -28,7 +30,13 @@ const vonluntarioSchema = new Schema<IVonluntario>(
         disponibilidade: {
             type: String,
             required: true,
-        }
+        },
+        
+        statusOnline: {
+            type: Boolean,
+            default: false,
+        },
+
     },
 );
 
