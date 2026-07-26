@@ -2,11 +2,7 @@ import { Estabelecimento } from '../../models/EstabelecimentoModel';
 import { Avaliacao } from '../../models/AvaliacaoAtendimentoModel';
 
 export async function recalcularNotaMedia(estabelecimentoId: string): Promise<void> {
-  const idNum = Number(estabelecimentoId);
-  if (isNaN(idNum)) {
-    throw new Error('ID do estabelecimento inválido');
-  }
-
+  
   const avaliacoes = await Avaliacao.find({ estabelecimentoId });
   const total = avaliacoes.length;
 
