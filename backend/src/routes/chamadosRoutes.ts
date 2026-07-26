@@ -17,7 +17,7 @@ router.post('/request', auth, async (req: Request, res: Response): Promise<void>
 
     const chamado = new SolicitacaoAtendimento({
       idSolicitacao: Date.now(),
-      idSurdo: req.user?.id,
+      idSurdo: String(req.user?.id),
       tipoAtend: 'EMERGENCIA',
       status: 'AGUARDANDO',
       prioridade: 'ALTA',
@@ -77,7 +77,7 @@ router.put('/:id/accept', auth, async (req: Request, res: Response): Promise<voi
       return;
     }
 
-    chamado.idInterprete = req.user?.id;
+    chamado.idInterprete = String(req.user?.id);
     chamado.status = 'EM_CURSO';
     chamado.dataHoraAceite = new Date();
     await chamado.save();

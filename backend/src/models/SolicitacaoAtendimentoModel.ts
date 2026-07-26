@@ -5,9 +5,9 @@ export type StatusChamado = 'AGUARDANDO' | 'EM_CURSO' | 'FINALIZADA' | 'CANCELAD
 interface ISolicitacaoAtendimento extends Document
 {
     idSolicitacao: number;
-    idSurdo: number;
-    idInterprete?: number;
-    idLocal: number;
+    idSurdo: string;
+    idInterprete?:string;
+    idLocal?:number;
     tipoAtend: string;
     descricao: string;
     dataAbertura: Date;
@@ -29,17 +29,16 @@ const solicitacaoAtendimentoSchema = new Schema<ISolicitacaoAtendimento>(
         },
 
         idSurdo: {
-            type: Number,
+            type: String,
             required: true,
         },
 
         idInterprete: {
-            type: Number,
+            type: String,
         },
 
         idLocal: {
             type: Number,
-            required: true,
         },
 
         tipoAtend: {
