@@ -7,7 +7,7 @@ export async function recalcularNotaMedia(estabelecimentoId: string): Promise<vo
     throw new Error('ID do estabelecimento inválido');
   }
 
-  const avaliacoes = await Avaliacao.find({ idAtendimento: idNum });
+  const avaliacoes = await Avaliacao.find({ estabelecimentoId });
   const total = avaliacoes.length;
 
   if (total === 0) {
