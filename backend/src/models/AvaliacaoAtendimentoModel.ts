@@ -3,7 +3,7 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 interface IAvaliacaoAtendimento extends Document
 {
     idAvaliacao: number;
-    idAtendimento: number;
+    estabelecimentoId: string;
     nota: number;
     comentario: string;
     dataAvaliacao: Date;
@@ -16,8 +16,8 @@ const avaliacaoSchema = new Schema<IAvaliacaoAtendimento>(
             required: true,
         },
 
-        idAtendimento: {
-            type: Number,
+         estabelecimentoId: {
+            type: String,
             required: true,
         },
 

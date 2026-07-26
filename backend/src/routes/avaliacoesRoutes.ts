@@ -23,7 +23,7 @@ router.post('/reviews', auth, async (req: Request, res: Response): Promise<void>
 
     const avaliacao = new Avaliacao({
       idAvaliacao: Date.now(),
-      idAtendimento: estabelecimentoId,
+      estabelecimentoId,
       nota,
       comentario: comentario || '',
       dataAvaliacao: new Date(),

@@ -2,7 +2,7 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface IVonluntario extends Document
 {
-    idUsuario: number;
+    idUsuario: string;
     idInterprete: number;
     experiencia: string;
     disponibilidade: string;
@@ -13,7 +13,7 @@ interface IVonluntario extends Document
 const vonluntarioSchema = new Schema<IVonluntario>(
     {
         idUsuario: {
-            type: Number,
+            type: String,
             required: true,
         },
 
