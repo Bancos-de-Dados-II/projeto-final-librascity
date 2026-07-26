@@ -4,6 +4,7 @@ interface INotificacao extends Document
 {
     idNotificao: number;
     idUsuario: number;
+    idRemetente?: number;
     titulo: string;
     mensagem: string;
     tipo: string;
@@ -21,6 +22,11 @@ const notificacaoSchema = new Schema<INotificacao>(
         idUsuario: {
             type: Number,
             required: true,
+        },
+
+        idRemetente: {
+            type: Number,
+            required: false,
         },
 
         titulo: {
