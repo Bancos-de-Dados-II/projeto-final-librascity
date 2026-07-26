@@ -1,7 +1,4 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
     font-family:'Poppins',sans-serif;
 }
 
@@ -102,10 +99,6 @@ nav .active{
     i{
     font-size: 20px;
     }
-}
-
-.botao-panico:hover{
-    
 }
 
 /* CARDS */
