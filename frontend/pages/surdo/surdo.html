@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surdo | LibrasCity</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="../../styles/reset.css">
+    <link rel="stylesheet" href="./surdo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="cabecalho">
+            <div class="logo">
+                <h2>Libras City <i class="fa-regular fa-hand"></i></h2>
+                <p>Encontre serviços inclusivos perto de você</p>
+            </div>
+            <div class="header-actions">
+                <button class="botao-panico" id="botaoPanico">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Botão de Pânico
+                </button>
+                <button class="btn-logout" id="logoutBtn" title="Sair">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-grid">
+            <section class="card filtros-card">
+                <div class="section-header">
+                    <div>
+                        <h1>Filtros</h1>
+                        <p>Refine sua busca por estabelecimentos inclusivos.</p>
+                    </div>
+                    <span class="badge info">Surdo</span>
+                </div>
+
+                <label for="enderecoInput" class="field-label">Buscar endereço</label>
+                <div class="input-group">
+                    <input type="text" id="enderecoInput" placeholder="Rua, bairro ou cidade">
+                    <button id="buscarEnderecoBtn" class="small-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+
+                <h4>Categorias</h4>
+                <div class="categorias" id="categoriasContainer"></div>
+
+                <div class="nota">
+                    <label for="notaRange">Nota mínima: <span id="notaLabel">0</span></label>
+                    <input type="range" id="notaRange" min="0" max="5" step="0.5" value="0">
+                </div>
+
+                <div class="switch">
+                    <span>Atende em LIBRAS</span>
+                    <label class="toggle">
+                        <input type="checkbox" id="librasToggle">
+                        <span></span>
+                    </label>
+                </div>
+
+                <button class="btn-primary" id="buscarBtn">
+                    <i class="fa-solid fa-filter"></i> Aplicar filtros
+                </button>
+
+                <div class="status-card" id="searchStatus">Carregando estabelecimentos...</div>
+            </section>
+
+            <section class="card resultados-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Resultados</h2>
+                        <p id="resultadosCount">0 locais encontrados</p>
+                    </div>
+                    <span class="badge secondary" id="resultsBadge">Todos</span>
+                </div>
+                <div id="resultadosLista" class="lista"></div>
+            </section>
+
+            <section class="card mapa-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Mapa</h2>
+                        <p>Toque em um card para centralizar o local.</p>
+                    </div>
+                    <span class="badge secondary">Mapa interativo</span>
+                </div>
+                <div id="map" class="mapa-area">Carregando mapa...</div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal hidden" id="reviewModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeReviewModal"><i class="fa-solid fa-xmark"></i></button>
+            <h2>Avaliar estabelecimento</h2>
+            <p id="reviewPlaceName">Nome do local</p>
+            <div class="stars" id="reviewStars">
+                <button type="button" class="star" data-value="1"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star" data-value="2"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star" data-value="3"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star" data-value="4"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star" data-value="5"><i class="fa-regular fa-star"></i></button>
+            </div>
+            <textarea id="reviewComment" rows="4" placeholder="Deixe seu comentário"></textarea>
+            <label class="file-label" for="reviewPhotoInput">
+                <i class="fa-regular fa-image"></i> Adicionar foto (opcional)
+            </label>
+            <input type="file" id="reviewPhotoInput" accept="image/*">
+            <div class="modal-actions">
+                <button class="btn-secondary" id="cancelReviewBtn">Cancelar</button>
+                <button class="btn-primary" id="submitReviewBtn">Enviar avaliação</button>
+            </div>
+            <p class="modal-message" id="reviewMessage"></p>
+        </div>
+    </div>
+
+    <div class="toast hidden" id="toastMessage"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script type="module" src="../../js/surdo.js"></script>
+</body>
+</html>

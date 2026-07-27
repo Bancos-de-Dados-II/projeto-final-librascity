@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - LibrasCity</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="../../styles/reset.css">
+    <link rel="stylesheet" href="./admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header class="cabecalho">
+            <div class="logo">
+                <h2>
+                    Libras City
+                    <i class="fa-regular fa-hand"></i>
+                </h2>
+            </div>
+            <button class="menu-mobile" id="menu-mobile">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <nav id="menu">
+                <a href="#" class="active">Dashboard</a>
+                <a href="#" id="logoutLink">Sair</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Painel Administrativo</h1>
+            <p>Monitore a acessibilidade em LIBRAS na sua cidade</p>
+        </section>
+
+        <section class="stats">
+            <div class="card">
+                <i class="fa-solid fa-phone-volume"></i>
+                <h2 id="totalChamados">0</h2>
+                <small>TOTAL DE CHAMADOS</small>
+            </div>
+            <div class="card">
+                <i class="fa-regular fa-user"></i>
+                <h2 id="totalUsuarios">0</h2>
+                <small>USUÁRIOS</small>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-store"></i>
+                <h2 id="totalEstabelecimentos">0</h2>
+                <small>ESTABELECIMENTOS</small>
+            </div>
+            <div class="card">
+                <i class="fa-regular fa-clock"></i>
+                <h2 id="totalHoras">0h</h2>
+                <small>HORAS DE VOLUNTARIADO</small>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <h3>Mapa de Calor - Chamados de Emergência</h3>
+            <div id="map" class="map"></div>
+        </section>
+
+        <section class="calls">
+            <div class="calls-header">
+                <h3>CHAMADOS RECENTES</h3>
+                <button id="refreshBtn" class="refresh-btn">
+                    <i class="fa-solid fa-rotate"></i> Atualizar
+                </button>
+            </div>
+            <div id="callsList">
+                <p class="no-calls">Nenhum chamado registrado.</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../../js/menuResponsivo.js"></script>
+    <script type="module" src="../../js/admin.js"></script>
+</body>
+</html>

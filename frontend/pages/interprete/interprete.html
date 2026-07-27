@@ -1,282 +1,101 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Intérprete - LibrasCity</title>
 
-    <title>Painel do Intérprete</title>
-
-    <!--styles-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="../../styles/reset.css">
     <link rel="stylesheet" href="./interprete.css">
-    
-    <!--font-poppins-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-    <!--font-awesome-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    
-
 </head>
-
 <body>
 
     <div class="container">
-
-        <!-- Menu -->
-
         <header class="cabecalho">
-
             <div class="logo">
                 <h2>
                     Libras City
                     <i class="fa-regular fa-hand"></i>
                 </h2>
             </div>
-
-            <!-- Botão Mobile -->
-
             <button class="menu-mobile" id="menu-mobile">
                 <i class="fa-solid fa-bars"></i>
             </button>
-
             <nav id="menu">
-                <a href="#/" class="active">
-                Intérprete
-                </a>
-                <a href="#">
-                    Painel de Gestão
-                </a>
+                <a href="#" class="active">Intérprete</a>
+                <a href="#" id="logoutLink">Sair</a>
             </nav>
         </header>
 
         <section class="hero">
-
             <h1>Painel do Intérprete</h1>
-
-            <p>
-
-                Receba e responda chamados de emergência em tempo real
-
-            </p>
-
+            <p>Receba e responda chamados de emergência em tempo real</p>
         </section>
 
         <section class="stats">
-
             <div class="card">
-
                 <i class="fa-solid fa-phone-volume"></i>
-
-                <h2>3</h2>
-
+                <h2 id="hojeCount">0</h2>
                 <small>HOJE</small>
-
             </div>
-
             <div class="card">
-
                 <i class="fa-regular fa-circle-check"></i>
-
-                <h2>42</h2>
-
+                <h2 id="totalCount">0</h2>
                 <small>TOTAL</small>
-
             </div>
-
             <div class="card">
-
                 <i class="fa-regular fa-clock"></i>
-
-                <h2>18h</h2>
-
+                <h2 id="horasCount">0h</h2>
                 <small>HORAS</small>
-
             </div>
-
         </section>
 
         <section class="calls">
-
             <div class="calls-header">
-
                 <h3>CHAMADOS ATIVOS</h3>
-
-                <span class="badge">3 pendentes</span>
-
+                <span class="badge" id="pendentesBadge">0 pendentes</span>
             </div>
-
-            <div class="call active">
-
-                <div class="color red"></div>
-
-                <div class="call-info">
-
-                    <h4>Maria S.</h4>
-
-                    <p>Cardápio para pedido</p>
-
-                    <small>
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        Padaria Tropical, João Pessoa
-
-                    </small>
-
-                </div>
-
-                <div class="time">
-
-                    <i class="fa-regular fa-clock"></i>
-
-                    agora
-
-                </div>
-
+            <div id="callsList">
+                <p class="no-calls">Nenhum chamado pendente no momento.</p>
             </div>
-
-            <div class="call">
-
-                <div class="color yellow"></div>
-
-                <div class="call-info">
-
-                    <h4>João P.</h4>
-
-                    <p>Receita médica</p>
-
-                    <small>
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        UBS Cristo Redentor
-
-                    </small>
-
-                </div>
-
-                <div class="time">
-
-                    <i class="fa-regular fa-clock"></i>
-
-                    3 min
-
-                </div>
-
-            </div>
-
-            <div class="call">
-
-                <div class="color red"></div>
-
-                <div class="call-info">
-
-                    <h4>Ana L.</h4>
-
-                    <p>Atendimento na loja</p>
-
-                    <small>
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        Partage Shopping CG
-
-                    </small>
-
-                </div>
-
-                <div class="time">
-
-                    <i class="fa-regular fa-clock"></i>
-
-                    1 min
-
-                </div>
-
-            </div>
-
         </section>
 
-        <section class="map">
-
-            <div class="zoom">
-
-                <button>+</button>
-
-                <button>-</button>
-
-            </div>
-
-            <div class="marker">
-
-                <span>!</span>
-
-            </div>
-
+        <section class="map" id="mapContainer">
+            <div id="map" style="height: 100%; width: 100%; border-radius: 22px;"></div>
         </section>
 
-        <section class="current-call">
-
-            <div class="avatar">
-
-                M
-
-            </div>
-
+        <section class="current-call" id="currentCall" style="display: none;">
+            <div class="avatar" id="callAvatar">M</div>
             <div class="details">
-
-                <h2>Maria S.</h2>
-
-                <p>
-
+                <h2 id="callNome">Maria S.</h2>
+                <p id="callLocal">
                     <i class="fa-solid fa-location-dot"></i>
-
-                    Padaria Tropical, João Pessoa
-
+                    <span>Carregando...</span>
                 </p>
-
-                <span class="photo">
-
+                <span class="photo" id="callFoto">
                     <i class="fa-regular fa-image"></i>
-
-                    FOTO DE CONTEXTO ANEXADA
-
+                    <span>Sem foto</span>
                 </span>
-
-                <p class="context">
-
-                    <strong>Contexto:</strong>
-
-                    Cardápio para pedido
-
+                <p class="context" id="callContexto">
+                    <strong>Contexto:</strong> <span>Carregando...</span>
                 </p>
-
             </div>
-
             <div class="actions">
-
-                <button>
-
+                <button id="acceptBtn" class="btn-whatsapp">
                     <i class="fa-brands fa-whatsapp"></i>
-
                     Aceitar e abrir WhatsApp
-
                 </button>
-
             </div>
-
         </section>
-
     </div>
 
-     <script src="../../js/menuResponsivo.js"></script>
-
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../../js/menuResponsivo.js"></script>
+    <script type="module" src="../../js/interprete.js"></script>
 </body>
-
 </html>

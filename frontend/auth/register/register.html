@@ -3,55 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - LibrasCity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="../../styles/reset.css">
     <link rel="stylesheet" href="../../styles/styles-form.css">
-    <title>Cadastro</title>
 </head>
 <body>
 
-<form id="registerForm" class="form">
+    <div class="form-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fa-regular fa-hand"></i>
+                <h2>Crie sua conta no<br><span>LibrasCity</span></h2>
+                <p>Comece agora mesmo</p>
+            </div>
 
-    <h2>Criar Conta</h2>
+            <form id="registerForm" class="form">
 
-    <input
-        id="name"
-        type="text"
-        placeholder="Nome"
-        required>
+                <div class="input-group">
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Seu nome completo"
+                        required
+                    >
+                </div>
 
-    <input
-        id="email"
-        type="email"
-        placeholder="Email"
-        required>
+                <div class="input-group">
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Seu e-mail"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
 
-    <input
-        id="password"
-        type="password"
-        placeholder="Senha"
-        required>
+                <div class="input-group">
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Crie uma senha"
+                        required
+                        autocomplete="new-password"
+                        minlength="6"
+                    >
+                    <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar senha">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
 
-    <input
-        id="telefone"
-        type="text"
-        placeholder="Telefone"
-        required>
-    
-    <select id="tipoUsuario" required>
-        <option value="SURDO">Surdo</option>
-        <option value="INTERPRETE">Intérprete</option>
-    </select>
+                <div class="input-group">
+                    <input
+                        id="telefone"
+                        type="text"
+                        placeholder="Telefone (ex: 83999999999)"
+                        required
+                        pattern="[0-9]{10,11}"
+                    >
+                </div>
 
-    <button type="submit">Cadastrar</button>
+                <div class="input-group select-group">
+                    <select id="tipoUsuario" required>
+                        <option value="">Selecione seu perfil</option>
+                        <option value="SURDO">Deficiente Auditivo</option>
+                        <option value="INTERPRETE">Intérprete</option>
+                        <option value="ADMIN">Administrador</option>
+                    </select>
+                </div>
 
-    <div class="login">
-        <span>Já possui conta?</span>
-        <a href="../login/login.html">Acesse aqui!</a>
+                <div id="errorMessage" class="error-message" style="display:none;"></div>
+
+                <button type="submit" id="registerButton" class="btn-primary">
+                    <span id="buttonText">Cadastrar</span>
+                    <span id="buttonSpinner" class="spinner" style="display:none;"></span>
+                </button>
+
+                <div class="form-footer">
+                    <span>Já possui conta?</span>
+                    <a href="../login/login.html">Faça login aqui!</a>
+                </div>
+            </form>
+        </div>
     </div>
 
-</form>
-
-<script type="module" src="./register.js"></script>
-
+    <script type="module" src="../../js/register.js"></script>
 </body>
 </html>
