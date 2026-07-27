@@ -84,23 +84,117 @@ nav .active{
 
 }
 
-.botao-panico{
-    display: flex;
-    background:#E53E3E;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+/* MENU MOBILE */
 
-    i{
-    font-size: 20px;
-    }
+.menu-mobile{
+
+    display:none;
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    background:#0F5A43;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    transition:.3s;
+
 }
+
+.menu-mobile:hover{
+
+    background:#147759;
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+.cabecalho{
+
+    position:relative;
+
+    padding:18px 20px;
+
+}
+
+.logo h2{
+    font-size: 20px;
+}
+
+.menu-mobile{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+nav{
+
+    position:absolute;
+
+    top:95px;
+
+    left:0;
+
+    width:100%;
+
+    background:#fff;
+
+    border-radius:0 0 15px 15px;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+    flex-direction:column;
+
+    gap:0;
+
+    overflow:hidden;
+
+    max-height:0;
+
+    opacity:0;
+
+    transition:.35s ease;
+
+}
+
+nav a{
+
+    padding:18px;
+
+    border-bottom:1px solid #eee;
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+nav.active{
+
+    max-height:300px;
+
+    opacity:1;
+
+}
+
+}
+
+/* section hero */
 
 .hero{
 

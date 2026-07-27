@@ -28,28 +28,32 @@
 
     <div class="container">
 
-            <!-- Menu -->
-    <header class="cabecalho">
+        <!-- Menu -->
 
-        <div class="logo">
-            <h2>  
-                Libras City
-                <i class="fa-regular fa-hand"></i>
-            </h2>
-        </div>
+        <header class="cabecalho">
 
-        <nav>
-            <a href="../mapa-inclusivo/mapa-inclusivo.html">Mapa Inclusivo</a>
-            <a href="#" class="active">Intérprete</a>
-            <a href="#">Painel de Gestão</a>
-        </nav>
+            <div class="logo">
+                <h2>
+                    Libras City
+                    <i class="fa-regular fa-hand"></i>
+                </h2>
+            </div>
 
-        <button class="botao-panico">
-            <i class="fa-solid fa-triangle-exclamation"></i>
-            Botão de Pânico
-        </button>
+            <!-- Botão Mobile -->
 
-    </header>
+            <button class="menu-mobile" id="menu-mobile">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <nav id="menu">
+                <a href="#/" class="active">
+                Intérprete
+                </a>
+                <a href="#">
+                    Painel de Gestão
+                </a>
+            </nav>
+        </header>
 
         <section class="hero">
 
@@ -270,6 +274,8 @@
         </section>
 
     </div>
+
+     <script src="../../js/menuResponsivo.js"></script>
 
 </body>
 
