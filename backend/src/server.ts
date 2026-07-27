@@ -46,6 +46,7 @@ import avaliacoesRoutes from './routes/avaliacoesRoutes';
 import chamadosRoutes from './routes/chamadosRoutes';
 import interpreteRoutes from './routes/interpreteRoutes';
 import adminRoutes from './routes/adminRoutes';
+import notificacaoRoutes from './routes/notificacaoRoutes';
 
 app.use('/', authRoutes);
 app.use('/users', usuariosRoutes);
@@ -55,6 +56,7 @@ app.use('/places', avaliacoesRoutes);
 app.use('/calls', chamadosRoutes);
 app.use('/interpreter', interpreteRoutes);
 app.use('/admin', adminRoutes);
+app.use('/notificacao', notificacaoRoutes);
 
 app.get('/ping', (req, res) => {
   res.json({ message: 'pong' });
