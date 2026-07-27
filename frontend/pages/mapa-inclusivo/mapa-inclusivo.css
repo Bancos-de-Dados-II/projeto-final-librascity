@@ -1,0 +1,393 @@
+*{
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:#F4F1EB;
+
+    color:#2e2e2e;
+
+}
+
+.container{
+
+    width:95%;
+    max-width:1200px;
+
+    margin:30px auto;
+
+}
+
+/* MENU */
+
+.cabecalho{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:18px 30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+
+}
+
+.logo h2{
+
+    color:#0F5A43;
+
+}
+
+.botao-panico{
+    display: flex;
+    background:#E53E3E;
+    color:white;
+    border:none;
+    padding:12px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    i{
+    font-size: 20px;
+    }
+}
+
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+
+.cabecalho{
+
+    position:relative;
+
+    padding:18px 20px;
+
+}
+
+.logo h2{
+    font-size: 20px;
+}
+
+.botao-panico{
+    padding:10px 17px;
+}
+
+}
+
+/* CARDS */
+
+.card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:20px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.05);
+
+}
+
+.card h1{
+
+    color:#163B32;
+
+    margin-bottom:5px;
+
+}
+
+.card p{
+
+    color:#777;
+
+}
+
+h4{
+
+    margin-top:25px;
+
+    margin-bottom:15px;
+
+}
+
+/* BOTÕES */
+
+.categorias{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+}
+
+.categorias button{
+
+    background:#0F5A43;
+
+    color:white;
+
+    border:none;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.categorias button:hover{
+
+    background:#147759;
+
+}
+
+/* RANGE */
+
+.nota{
+
+    margin-top:25px;
+
+}
+
+.nota input{
+
+    width:100%;
+
+    margin-top:10px;
+
+}
+
+/* SWITCH */
+
+.switch{
+
+    background:#F5EFE4;
+
+    margin-top:20px;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.toggle{
+
+    position:relative;
+
+    width:55px;
+
+    height:30px;
+
+}
+
+.toggle input{
+
+    display:none;
+
+}
+
+.toggle span{
+
+    position:absolute;
+
+    inset:0;
+
+    background:#CCC;
+
+    border-radius:30px;
+
+    transition:.3s;
+
+}
+
+.toggle span:before{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+
+    height:22px;
+
+    background:white;
+
+    border-radius:50%;
+
+    left:4px;
+
+    top:4px;
+
+    transition:.3s;
+
+}
+
+.toggle input:checked + span{
+
+    background:#0F5A43;
+
+}
+
+.toggle input:checked + span:before{
+
+    transform:translateX(24px);
+
+}
+
+/* RESULTADOS */
+
+.titulo{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+}
+
+.lista{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px;
+
+    border:1px solid #eee;
+
+    border-radius:15px;
+
+    transition:.3s;
+
+}
+
+.item:hover{
+
+    border-color:#0F5A43;
+
+}
+
+.badge{
+
+    background:#DFF5EA;
+
+    color:#0F5A43;
+
+    font-weight:600;
+
+    padding:8px 15px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+/* MAPA */
+
+.mapa input{
+
+    width:100%;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    border:1px solid #DDD;
+
+    margin-bottom:20px;
+
+}
+
+.mapa-area{
+
+    height:450px;
+
+    border-radius:18px;
+
+    background:#DADADA;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#555;
+
+    font-size:28px;
+
+    font-weight:600;
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:900px){
+
+.top-menu{
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+nav{
+
+    flex-direction:column;
+
+    align-items:center;
+
+}
+
+.categorias{
+
+    grid-template-columns:1fr;
+
+}
+
+}
