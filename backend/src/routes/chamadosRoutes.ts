@@ -3,6 +3,7 @@ import { SolicitacaoAtendimento } from '../models/SolicitacaoAtendimentoModel';
 import { Usuario } from '../models/UsuarioModel';
 import { gerarLinkWhatsApp } from '../services/business/whatsappService';
 import { auth } from '../middleware/auth';
+import { notificarSolicitacaoAceita } from '../services/business/notificacaoService';
 
 const router: Router = express.Router();
 
@@ -84,6 +85,10 @@ router.put('/:id/accept', auth, async (req: Request, res: Response): Promise<voi
 
     const solicitante = await Usuario.findById(chamado.idSurdo);
     const link = solicitante ? gerarLinkWhatsApp(String(solicitante.telefone)) : null;
+
+    //Criando notificacao
+    notificarSolicitacaoAceita(chamado.idInterprete, chamado.idSurdo);
+    //
 
     res.json({
       mensagem: 'Chamado aceito',

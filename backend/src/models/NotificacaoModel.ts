@@ -3,8 +3,8 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 interface INotificacao extends Document
 {
     idNotificao: number;
-    idUsuario: number;
-    idRemetente?: number;
+    idUsuario: string;
+    idRemetente?: string;
     titulo: string;
     mensagem: string;
     tipo: string;
@@ -20,12 +20,12 @@ const notificacaoSchema = new Schema<INotificacao>(
         },
 
         idUsuario: {
-            type: Number,
+            type: String,
             required: true,
         },
 
         idRemetente: {
-            type: Number,
+            type: String,
             required: false,
         },
 
