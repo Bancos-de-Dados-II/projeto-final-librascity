@@ -2,7 +2,7 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface IUsuario extends Document
 {
-    id: number;
+    id: string;
     nome: string;
     email: string;
     senha: string;
@@ -19,7 +19,7 @@ interface IUsuario extends Document
 const UsuarioSchema = new Schema<IUsuario>(
     {
         id: {
-            type: Number,
+            type: String,
         },
 
         nome: {
