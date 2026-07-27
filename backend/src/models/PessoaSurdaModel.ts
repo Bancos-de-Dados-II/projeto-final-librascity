@@ -2,8 +2,8 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface IPessoaSurda extends Document
 {
-    idUsuario: number;
-    idSurdo: number;
+    idUsuario: String;
+    idSurdo: String;
     prefereVideoChamada: boolean;
     observacoes: string;
 }
@@ -11,12 +11,12 @@ interface IPessoaSurda extends Document
 const pessoaSurdaSchema = new Schema<IPessoaSurda>(
     {
         idUsuario: {
-            type: Number,
+            type: String,
             required: true,
         },
 
         idSurdo: {
-            type: Number,
+            type: String,
             required: true,
         },
 

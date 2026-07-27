@@ -5,7 +5,7 @@ const redis = new Redis(process.env.REDIS_URI!);
 const CACHE_TTL = 60;
 
 export async function setChamadaStatus(id: string, status: string): Promise<void> {
-  await redis.set(`chamada:${id}`, status, 'EX', 10); // 10 segundos
+  await redis.set(`chamada:${id}`, status, 'EX', 10);
 }
 
 export async function getChamadaStatus(id: string): Promise<string | null> {

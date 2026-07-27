@@ -2,9 +2,9 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface IAtendimento extends Document
 {
-    idAtendimento: number;
-    idSolicitacao: number;
-    idInterprete: number;
+    idAtendimento: String;
+    idSolicitacao: String;
+    idInterprete: String;
     dataInicio: Date;
     dataFim: Date;
     modalidade: string,
@@ -13,17 +13,17 @@ interface IAtendimento extends Document
 const atendimentoSchema = new Schema<IAtendimento>(
     {
         idAtendimento: {
-            type: Number,
+            type: String,
             required: true,
         },
 
         idSolicitacao: {
-            type: Number,
+            type: String,
             required: true,
         },
 
         idInterprete: {
-            type: Number,
+            type: String,
             required: true,
         },
 

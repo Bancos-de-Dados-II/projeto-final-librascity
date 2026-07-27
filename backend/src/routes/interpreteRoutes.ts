@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from 'express';
-import { Vonluntario } from '../models/VoluntarioModel';
+import { Voluntario } from '../models/VoluntarioModel';
 import { Usuario } from '../models/UsuarioModel';
 import { auth } from '../middleware/auth';
 
@@ -25,13 +25,13 @@ router.post('/onboarding', auth, async (req: Request, res: Response): Promise<vo
       return;
     }
 
-    const jaExiste = await Vonluntario.findOne({ idUsuario: String(req.user?.id) });
+    const jaExiste = await Voluntario.findOne({ idUsuario: String(req.user?.id) });
     if (jaExiste) {
       res.status(409).json({ erro: 'Este usuário já possui cadastro de voluntário', voluntario: jaExiste });
       return;
     }
 
-    const voluntario = new Vonluntario({
+    const voluntario = new Voluntario({
       idUsuario: String(req.user?.id),
       idInterprete: Date.now(),
       experiencia,
@@ -55,7 +55,7 @@ router.put('/status', auth, async (req: Request, res: Response): Promise<void> =
       return;
     }
 
-    const voluntario = await Vonluntario.findOneAndUpdate(
+    const voluntario = await Voluntario.findOneAndUpdate(
       { idUsuario: String(req.user?.id) },
       { statusOnline: online },
       { new: true, upsert: false }

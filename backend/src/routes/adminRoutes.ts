@@ -5,7 +5,7 @@ import { auth } from '../middleware/auth';
 const router: Router = express.Router();
 
 function somenteAdmin(req: Request, res: Response, next: express.NextFunction): void {
-  if (req.user?.tipoUsuario !== 'admin') {
+  if (req.user?.tipoUsuario !== 'ADMIN') {
     res.status(403).json({ erro: 'Acesso negado' });
     return;
   }
