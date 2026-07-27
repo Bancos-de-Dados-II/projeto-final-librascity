@@ -2,7 +2,7 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface ILocalizacao extends Document
 {
-    idLocal: number;
+    idLocal: string;
     latitude: number;
     longitude: number;
     dataAtualizada: Date;
@@ -11,7 +11,7 @@ interface ILocalizacao extends Document
 const localizacaoSchema = new Schema<ILocalizacao>(
     {
         idLocal: {
-            type: Number,
+            type: String,
             required: true,
         },
 

@@ -2,8 +2,8 @@ import mongoose, {Schema, Document, Model} from 'mongoose';
 
 interface IDisponibilidade extends Document
 {
-    idDisponibilidade: number;
-    idInterprete: number;
+    idDisponibilidade: String;
+    idInterprete: String;
     diaSemana: Date;
     horaInicio: Date;
     horaFim: Date;
@@ -13,12 +13,12 @@ interface IDisponibilidade extends Document
 const disponibilidadeSchema = new Schema<IDisponibilidade>(
     {
         idDisponibilidade: {
-            type: Number,
+            type: String,
             required: true,
         },
         
         idInterprete: {
-            type: Number,
+            type: String,
             required: true,
         },
 

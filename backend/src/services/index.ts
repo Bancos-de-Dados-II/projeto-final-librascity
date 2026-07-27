@@ -9,3 +9,4 @@ export * from './redis/chamadaStatusCache';
 export * from './business/authService';
 export * from './business/avaliacaoService';
 export * from './business/whatsappService';
+export * from './business/notificacaoService';

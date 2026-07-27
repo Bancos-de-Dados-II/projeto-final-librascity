@@ -1,16 +1,16 @@
 import mongoose, {Schema, Document, Model} from 'mongoose';
 
-interface IVonluntario extends Document
+interface IVoluntario extends Document
 {
     idUsuario: string;
-    idInterprete: number;
+    idInterprete: string;
     experiencia: string;
     disponibilidade: string;
     statusOnline: boolean;
 
 }
 
-const vonluntarioSchema = new Schema<IVonluntario>(
+const voluntarioSchema = new Schema<IVoluntario>(
     {
         idUsuario: {
             type: String,
@@ -18,7 +18,7 @@ const vonluntarioSchema = new Schema<IVonluntario>(
         },
 
         idInterprete: {
-            type: Number,
+            type: String,
             required: true,
         },
 
@@ -40,7 +40,7 @@ const vonluntarioSchema = new Schema<IVonluntario>(
     },
 );
 
-export const Vonluntario: Model<IVonluntario> = mongoose.model<IVonluntario>(
-    'Vonluntario',
-    vonluntarioSchema
+export const Voluntario: Model<IVoluntario> = mongoose.model<IVoluntario>(
+    'Voluntario',
+    voluntarioSchema
 );

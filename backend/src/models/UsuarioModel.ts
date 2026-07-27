@@ -7,7 +7,7 @@ interface IUsuario extends Document
     email: string;
     senha: string;
     fotoPerfilUrl: string;
-    telefone: Number;
+    telefone: string;
     tipoUsuario: string;
     dataCadast: Date;
     status: string;
@@ -47,7 +47,7 @@ const UsuarioSchema = new Schema<IUsuario>(
         },
 
         telefone: {
-            type: Number,
+            type: String,
             required: true,
         },
 
