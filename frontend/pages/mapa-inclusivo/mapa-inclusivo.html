@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Inclusivo</title>
+
+    <!--styles-->
+    <link rel="stylesheet" href="../../styles/reset.css">
+    <link rel="stylesheet" href="./mapa-inclusivo.css">
+
+    <!--font-poppins-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!--font-awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+<body>
+     <div class="container">
+
+        <!-- Menu -->
+        <header class="cabecalho">
+            <div class="logo">
+                <h2>
+                    Libras City
+                <i class="fa-regular fa-hand"></i>
+                </h2>
+            </div>
+
+            <button class="botao-panico">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Botão de Pânico
+            </button>
+        </header>
+
+
+    <!-- Filtros -->
+
+    <section class="card">
+
+        <h1>Mapa Inclusivo</h1>
+
+        <p>
+            Locais avaliados pela comunidade surda em LIBRAS
+        </p>
+
+        <h4>Categorias</h4>
+
+        <div class="categorias">
+
+            <button>Saúde</button>
+            <button>Educação</button>
+            <button>Comércio</button>
+            <button>Alimentação</button>
+            <button>Órgão Público</button>
+
+        </div>
+
+        <div class="nota">
+
+            <label>Nota mínima</label>
+
+            <input type="range">
+
+        </div>
+
+        <div class="switch">
+
+            <span>
+                Atende em LIBRAS
+            </span>
+
+            <label class="toggle">
+                <input type="checkbox">
+                <span></span>
+            </label>
+
+        </div>
+
+    </section>
+
+
+    <!-- Resultados -->
+
+    <section class="card">
+
+        <div class="titulo">
+
+            <h3>Resultados</h3>
+
+            <span>12</span>
+
+        </div>
+
+        <div class="lista">
+
+            <div class="item">
+
+                <div>
+
+                    <h4>Hospital de Emergência e Trauma</h4>
+
+                    <p>Saúde • João Pessoa</p>
+
+                    <small>⭐ 4.6</small>
+
+                </div>
+
+                <span class="badge">
+                    LIBRAS
+                </span>
+
+            </div>
+
+            <div class="item">
+
+                <div>
+
+                    <h4>Manaíra Shopping</h4>
+
+                    <p>Comércio • João Pessoa</p>
+
+                    <small>⭐ 4.8</small>
+
+                </div>
+
+                <span class="badge">
+                    LIBRAS
+                </span>
+
+            </div>
+
+            <div class="item">
+
+                <div>
+
+                    <h4>Restaurante Mangai</h4>
+
+                    <p>Alimentação • João Pessoa</p>
+
+                    <small>⭐ 4.1</small>
+
+                </div>
+
+                <span class="badge">
+                    LIBRAS
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Mapa -->
+
+    <section class="card mapa">
+
+        <input
+        type="text"
+        placeholder="Buscar endereço, bairro ou cidade">
+
+        <div class="mapa-area">
+
+            MAPA
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+
+</html>
