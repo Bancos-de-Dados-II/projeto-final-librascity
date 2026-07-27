@@ -3,34 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LibrasCity</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="../../styles/reset.css">
     <link rel="stylesheet" href="../../styles/styles-form.css">
-    <title>Login</title>
 </head>
 <body>
 
-<form id="loginForm" class="form">
-    <h2>Bem-vindo(a) ao Libras City</h2>
+    <div class="form-wrapper">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fa-regular fa-hand"></i>
+                <h2>Bem-vindo(a) ao<br><span>LibrasCity</span></h2>
+                <p>Acesse sua conta para continuar</p>
+            </div>
 
-    <input
-        id="email"
-        type="email"
-        placeholder="Informe seu email">
+            <form id="loginForm" class="form">
+                <div class="input-group">
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Seu e-mail"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
 
-    <input
-        id="password"
-        type="password"
-        placeholder="Informe sua senha">
+                <div class="input-group">
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Sua senha"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <button type="button" id="togglePassword" class="toggle-password" aria-label="Mostrar senha">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
 
-    <button type="submit">Entrar</button>
+                <div id="errorMessage" class="error-message" style="display:none;"></div>
 
-    <div class="registre">
-        <span>Ainda não possui uma conta?</span>
-        <a href="../register/register.html">Cadastre-se aqui!</a>
+                <button type="submit" id="loginButton" class="btn-primary">
+                    <span id="buttonText">Entrar</span>
+                    <span id="buttonSpinner" class="spinner" style="display:none;"></span>
+                </button>
+
+                <div class="form-footer">
+                    <span>Ainda não possui conta?</span>
+                    <a href="../register/register.html">Cadastre-se aqui!</a>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
 
-<script type="module" src="./login.js"></script>
-    
+    <script type="module" src="../../js/login.js"></script>
 </body>
 </html>

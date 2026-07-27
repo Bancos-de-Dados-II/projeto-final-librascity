@@ -692,4 +692,51 @@ nav.active{
 
 }
 
+.no-calls {
+    padding: 30px 25px;
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+}
+
+.btn-whatsapp {
+    background: #25D366 !important;
+}
+
+.btn-whatsapp:hover {
+    background: #1ebe5e !important;
+}
+
+#mapContainer {
+    position: relative;
+    height: 420px;
+    border-radius: 22px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.05);
+    background: #eaeaea;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+.call .accept-btn {
+    background: #0F5A43;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s;
+    align-self: center;
+}
+
+.call .accept-btn:hover {
+    background: #0e4e3a;
+}
+
 }
