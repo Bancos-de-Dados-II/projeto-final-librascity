@@ -60,7 +60,7 @@ router.get('/proximos', async (req: Request, res: Response): Promise<void> => {
     });
 
     await setCache(cacheKey, resultados);
-    console.log('Dados armazenados em cache (stub)');
+    console.log('Dados armazenados em cache');
     res.json(resultados);
   } catch (err: any) {
     console.error('Erro na consulta espacial:', err);
