@@ -197,7 +197,7 @@ async function buscarEstabelecimentos(lat = activeCoordinates.lat, lng = activeC
         }
 
         let estabelecimentos = await response.json();
-
+        
         estabelecimentos = estabelecimentos.filter(item => {
             const nota = item.notaMedia || 0;
             const aceita = atendeLIBRAS ? item.atendeLIBRAS !== false : true;
@@ -327,7 +327,12 @@ async function acionarPanico() {
 
     try {
         const pos = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 15000 });
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            });
+            
         });
 
         const lat = pos.coords.latitude;
@@ -464,9 +469,50 @@ botaoPanico.addEventListener('click', acionarPanico);
 
 window.openReviewModal = openReviewModal;
 
+/* marcador do map */
+
 (async function init() {
-    initMap();
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        activeCoordinates = { lat, lng };
+
+        initMap(lat, lng);
+
+        atualizarLocalizacaoUsuario(lat, lng);
+
+        await buscarEstabelecimentos(lat, lng);
+
+    }, () => {
+
+        initMap();
+        buscarEstabelecimentos();
+
+    });
+
     criarCategorias();
     notaLabel.textContent = notaRange.value;
-    await buscarEstabelecimentos();
+
 })();
+
+let userMarker = null;
+
+function atualizarLocalizacaoUsuario(lat, lng) {
+
+    if (userMarker) {
+        map.removeLayer(userMarker);
+    }
+
+    userMarker = L.marker([lat, lng], {
+        icon: L.icon({
+            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        })
+    })
+    .addTo(map)
+    .bindPopup("Você está aqui");
+}
