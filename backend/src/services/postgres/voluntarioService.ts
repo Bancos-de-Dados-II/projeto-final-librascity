@@ -6,19 +6,19 @@ const pool = new Pool({
 });
 
 export async function syncVoluntario(dados: any): Promise<void> {
-  const { _id, experiencia, disponibilidade, status_online, horas_voluntariado, criado_em } = dados;
+  const { idUsuario, _id, experiencia, statusOnline, disponibilidade, criado_em } = dados;
 
   const query = `
-    INSERT INTO usuarios (id_mongo, nome, email, senha, telefone, tipo_usuario, status, foto_perfil_url, data_criada)
+    INSERT INTO voluntarios (id_mongo, id_usuario_mongo, experiencia, disponibilidade, status_online, criado_em)
     VALUES ($1, $2, $3, $4, $5, $6)
     ON CONFLICT (id_mongo) DO UPDATE SET
+      id_usuario_mongo = EXCLUDED.id_usuario_mongo,
       experiencia = EXCLUDED.experiencia,
       disponibilidade = EXCLUDED.disponibilidade,
       status_online = EXCLUDED.status_online,
-      horas_voluntariado = EXCLUDED.horas_voluntariado,
       criado_em = EXCLUDED.criado_em
   `;
-  await pool.query(query, [_id, experiencia, disponibilidade, status_online, horas_voluntariado, criado_em]);
+  await pool.query(query, [_id, idUsuario, experiencia, disponibilidade, statusOnline, criado_em]);
   console.log(`Sincronizado no PostgreSQL: ${_id}`);
 }
 

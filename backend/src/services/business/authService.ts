@@ -6,7 +6,7 @@ export async function registerUser(
   nome: string,
   email: string,
   senha: string,
-  tipoUsuario: string,   
+  tipoUsuario: string,
   telefone?: number,
   fotoPerfilUrl?: string
 ) {

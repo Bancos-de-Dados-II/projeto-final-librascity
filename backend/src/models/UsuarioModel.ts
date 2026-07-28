@@ -6,14 +6,14 @@ interface IUsuario extends Document
     nome: string;
     email: string;
     senha: string;
-    fotoPerfilUrl: string;
     telefone: string;
     tipoUsuario: string;
-    dataCadast: Date;
     status: string;
+    fotoPerfilUrl: string;
     latitude?: number;
     longitude?: number;
     dataAtualizacaoLocalizacao?: Date;
+    dataCadast: Date;
 }
 
 const UsuarioSchema = new Schema<IUsuario>(
@@ -41,11 +41,6 @@ const UsuarioSchema = new Schema<IUsuario>(
         required: true
         },
 
-        fotoPerfilUrl: {
-            type: String,
-            trim: true,
-        },
-
         telefone: {
             type: String,
             required: true,
@@ -56,9 +51,9 @@ const UsuarioSchema = new Schema<IUsuario>(
             required: true,
         },
 
-        dataCadast: {
-            type: Date,
-            default: Date.now(),
+        fotoPerfilUrl: {
+            type: String,
+            trim: true,
         },
 
         status: {
@@ -77,6 +72,11 @@ const UsuarioSchema = new Schema<IUsuario>(
 
         dataAtualizacaoLocalizacao: {
             type: Date,
+        },
+
+        dataCadast: {
+            type: Date,
+            default: Date.now(),
         }
     },
 );
