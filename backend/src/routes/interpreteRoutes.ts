@@ -2,6 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import { Voluntario } from '../models/VoluntarioModel';
 import { Usuario } from '../models/UsuarioModel';
 import { auth } from '../middleware/auth';
+import { syncVoluntario } from '../services/postgres/voluntarioService';
 
 const router: Router = express.Router();
 
@@ -38,6 +39,8 @@ router.post('/onboarding', auth, async (req: Request, res: Response): Promise<vo
       disponibilidade,
       statusOnline: false,
     });
+
+    syncVoluntario(voluntario);
 
     await voluntario.save();
     res.status(201).json({ mensagem: 'Cadastro de voluntário realizado com sucesso', voluntario });
