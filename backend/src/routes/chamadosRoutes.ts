@@ -1,20 +1,16 @@
-import express, { Request, Response, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import { SolicitacaoAtendimento } from '../models/SolicitacaoAtendimentoModel';
 import { Usuario } from '../models/UsuarioModel';
 import { gerarLinkWhatsApp } from '../services/business/whatsappService';
 import { auth } from '../middleware/auth';
 import { notificarSolicitacaoAceita } from '../services/business/notificacaoService';
+import { solicitacaoAtendimentoSchema, validate } from '../middleware/validation';
 
 const router: Router = express.Router();
 
-router.post('/request', auth, async (req: Request, res: Response): Promise<void> => {
+router.post('/request', auth, validate(solicitacaoAtendimentoSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { latitudeAtual, longitudeAtual, fotoContextoUrl } = req.body;
-
-    if (latitudeAtual === undefined || longitudeAtual === undefined) {
-      res.status(400).json({ erro: 'latitudeAtual e longitudeAtual são obrigatórios' });
-      return;
-    }
 
     const chamado = new SolicitacaoAtendimento({
       idSolicitacao: Date.now(),
@@ -30,7 +26,7 @@ router.post('/request', auth, async (req: Request, res: Response): Promise<void>
     await chamado.save();
     res.status(201).json({ id: chamado._id, status: chamado.status });
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 
