@@ -10,7 +10,9 @@ A API permite:
 - avaliações de atendimento;
 - solicitações de atendimento emergencial;
 - onboarding de intérpretes/voluntários;
-- dashboards administrativos com dados de acessibilidade.
+- dashboards administrativos com dados de acessibilidade
+
+[Acesso a documentação da API](./api-docs)
 
 ## 🛠️ Tecnologias
 
