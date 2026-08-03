@@ -1,26 +1,22 @@
-import express, { Request, Response, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import { registerUser, loginUser } from '../services/business/authService';
 import { auth } from '../middleware/auth';
 import { Usuario } from '../models/UsuarioModel';
 import { syncUsuario } from '../services/postgres/usuarioService';
+import { usuarioRegisterSchema, validate } from '../middleware/validation';
 
 const router: Router = express.Router();
 
-router.post('/register', async (req: Request, res: Response): Promise<void> => {
+router.post('/register', validate(usuarioRegisterSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { nome, email, senha, tipoUsuario, telefone, fotoPerfilUrl } = req.body;
-
-    if (!nome || !email || !senha || !tipoUsuario) {
-      res.status(400).json({ erro: 'nome, email, senha e tipoUsuario são obrigatórios' });
-      return;
-    }
 
     const usuario = await registerUser(nome, email, senha, tipoUsuario, telefone, fotoPerfilUrl);
     syncUsuario(usuario);
 
     res.status(201).json({ mensagem: 'Usuário criado com sucesso!', id: usuario._id });
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 

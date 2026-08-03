@@ -49,6 +49,7 @@ import chamadosRoutes from './routes/chamadosRoutes';
 import interpreteRoutes from './routes/interpreteRoutes';
 import adminRoutes from './routes/adminRoutes';
 import notificacaoRoutes from './routes/notificacaoRoutes';
+import { errorHandler } from './middleware/errorHandler';
 
 app.use('/', authRoutes);
 app.use('/users', usuariosRoutes);
@@ -63,6 +64,8 @@ app.use('/notificacao', notificacaoRoutes);
 app.get('/ping', (req, res) => {
   res.json({ message: 'pong' });
 });
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);

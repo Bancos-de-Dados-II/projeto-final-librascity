@@ -1,76 +1,704 @@
-<div align="center" > 
+# LIBRASCity - API
 
-<h1> 📍 Libras City </h1>
-<p>Mãos conectadas✋</p>
+## 📖 Descrição
 
-<h2>Objetivo do projeto</h2>
-<p>O Libras City é um projeto acadêmico desenvolvido no Instituto Federal de Educação, Ciência e Tecnologia da Paraíba (IFPB) – Campus Cajazeiras, com o propósito de promover a inclusão, a acessibilidade e a valorização da comunidade surda por meio da tecnologia.
+O LIBRASCity é uma plataforma acadêmica voltada para promover inclusão, acessibilidade e comunicação entre a comunidade surda, intérpretes de Libras e gestores públicos. O backend da aplicação foi implementado com Node.js, Express e TypeScript e integra autenticação, geolocalização, avaliações e fluxos de atendimento para apoiar a comunidade surda de forma prática e acessível.
 
-O projeto consiste em utilizar a localização em tempo real da pessoa com deficiência auditiva para identificar e recomendar os estabelecimentos mais preparados para atender esse público, considerando critérios de acessibilidade e atendimento inclusivo.
+A API permite:
+- cadastro e autenticação de usuários com JWT;
+- registro e consulta de estabelecimentos;
+- avaliações de atendimento;
+- solicitações de atendimento emergencial;
+- onboarding de intérpretes/voluntários;
+- dashboards administrativos com dados de acessibilidade.
 
-Além disso, o Libras City busca conectar pessoas surdas a intérpretes de Língua Brasileira de Sinais (Libras), facilitando a comunicação em situações do cotidiano e contribuindo para a redução das barreiras de interação em diferentes ambientes.
+## 🛠️ Tecnologias
 
-Dessa forma, o projeto integra recursos de geolocalização, acessibilidade e comunicação em uma única plataforma, fortalecendo a inclusão social e promovendo uma melhor experiência para a comunidade surda.
-</p>
+- Node.js + Express
+- TypeScript
+- MongoDB
+- PostgreSQL
+- Redis
+- JWT
+- Multer
 
-<h2>Equipe do projeto</h2>
+## 👥 Equipe
 
-<p> José Antonio, Wendell, Francieverton e João Victor</p>
+- José Antonio
+- Wendell
+- Francieverton
+- João Victor
 
-<h2>🚀 Como executar o projeto</h2>
+## ⚙️ Instalação e Configuração
 
-<h3>1. Clone o repositório ou crie um fork</h3>
+### 1. Clone o repositório
 
-<pre><code>git clone https://github.com/Bancos-de-Dados-II/projeto-final-librascity.git
-</code></pre>
+```bash
+git clone https://github.com/Bancos-de-Dados-II/projeto-final-librascity.git
+cd projeto-final-librascity
+```
 
-<h3>2. Instale as dependências</h3>
+### 2. Instale as dependências
 
-<pre><code>npm install
-</code></pre>
+```bash
+npm install
+```
 
-<h3>3. Configure o arquivo <code>.env</code></h3>
+### 3. Configure o arquivo `.env`
 
-<p>
-Antes de iniciar a aplicação, copie o arquivo <code>.env.example</code> e o modifiquei para <code>.env</code>, localizado na raiz do projeto.
-</p>
-<pre><code>
-PORT=
-NODE_ENV="development"
+Crie um arquivo `.env` na raiz do projeto com as variáveis abaixo:
+
+```env
+PORT=5000
+NODE_ENV=development
 MONGO_URI=
 POSTGRES_URI=
-REDIS_URI=
+REDIS_URL=
 JWT_SECRET=
-</code></pre>
+```
 
-<h4>OBS: Indicicamos no você gerar o JWT_SECRET pelo o terminal é só iniciar o node e rodar o comando abaixo: </h4>
-<pre><code>
-  console.log(require('crypto').randomBytes(32).toString('hex'))
-</code></pre>
+> Para gerar um valor seguro de `JWT_SECRET`, execute:
 
-> ira ser gerado uma uma chave que você poderá usar no JWT_SECRET
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
 
-<h3>4. Execute o projeto</h3>
+### 4. Execute a API
 
-<p>
-Após configurar corretamente o arquivo <code>.env</code>, execute o seguinte comando na <strong>pasta raiz</strong> do projeto:
-</p>
+Modo de desenvolvimento:
 
-<pre><code>npm run dev
-</code></pre>
+```bash
+npm run dev
+```
 
-<h2>🛠 Tecnologias</h2>
+Modo de produção:
 
-<p>HTML, CSS, JavaScript, TypeScript e NodeJS</p>
+```bash
+npm run build
+npm start
+```
 
-<h2> Banco de Dados</h2>
+## 🔐 Autenticação
 
-<p>MongoDB, Redis e Postgres</p>
+A maioria das rotas protegidas exige um token JWT no header `Authorization`.
 
+Formato esperado:
 
+```http
+Authorization: Bearer <token>
+```
 
+O token é gerado pelo endpoint `/login` e precisa ser enviado nas requisições protegidas.
 
-</div>
+## 📌 Endpoints da API
 
+### Visão geral
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/NZVyGR9C)
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | `/register` | Cadastro de usuário |
+| POST | `/login` | Login e geração de token JWT |
+| GET | `/perfil` | Dados do usuário autenticado |
+| PUT | `/logout` | Logout do usuário |
+| POST | `/uploads/media` | Upload de imagem |
+| POST | `/estabelecimentos` | Criar estabelecimento |
+| GET | `/estabelecimentos/proximos` | Buscar estabelecimentos por proximidade |
+| GET | `/estabelecimentos/:id` | Obter estabelecimento por ID |
+| PUT | `/estabelecimentos/:id` | Atualizar estabelecimento |
+| DELETE | `/estabelecimentos/:id` | Remover estabelecimento |
+| POST | `/places/reviews` | Avaliar estabelecimento |
+| POST | `/calls/request` | Solicitar atendimento de emergência |
+| GET | `/calls/:id/status` | Verificar status da chamada |
+| GET | `/calls/pending` | Listar chamadas pendentes |
+| PUT | `/calls/:id/accept` | Aceitar chamada |
+| PUT | `/calls/:id/complete` | Finalizar chamada |
+| POST | `/interpreter/onboarding` | Cadastrar intérprete/voluntário |
+| PUT | `/interpreter/status` | Atualizar status online/offline |
+| PUT | `/users/:id/location` | Atualizar localização do usuário |
+| GET | `/admin/dashboards/accessibility-heatmap` | Dashboard de mapa de calor |
+| GET | `/admin/dashboards/critical-locations` | Locais críticos |
+| GET | `/notificacao/recebidas/:id` | Notificações recebidas |
+| GET | `/notificacao/enviadas/:id` | Notificações enviadas |
+
+---
+
+### Autenticação
+
+#### POST `/register`
+
+**Descrição:** Cadastra um novo usuário no sistema.
+
+**Autenticação:** Não
+
+**Body (JSON):**
+
+```json
+{
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "senha": "123456",
+  "telefone": "83999999999",
+  "tipoUsuario": "SURDO",
+  "fotoPerfilUrl": "https://exemplo.com/foto.jpg"
+}
+```
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "mensagem": "Usuário criado com sucesso!",
+  "id": "67b2c8d4e1a2b3c4d5e6f7a8"
+}
+```
+
+**Erros comuns:**
+- `400` – payload inválido
+- `409` – email já cadastrado
+- `500` – erro interno
+
+#### POST `/login`
+
+**Descrição:** Faz login e retorna o token JWT.
+
+**Autenticação:** Não
+
+**Body (JSON):**
+
+```json
+{
+  "email": "joao@email.com",
+  "senha": "123456"
+}
+```
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "usuario": {
+    "id": "67b2c8d4e1a2b3c4d5e6f7a8",
+    "nome": "João Silva",
+    "email": "joao@email.com",
+    "tipoUsuario": "SURDO",
+    "status": "ATIVO"
+  }
+}
+```
+
+**Erros comuns:**
+- `400` – campos obrigatórios ausentes
+- `401` – credenciais inválidas
+
+#### GET `/perfil`
+
+**Descrição:** Retorna os dados do usuário autenticado.
+
+**Autenticação:** Sim
+
+**Headers:**
+
+```http
+Authorization: Bearer <token>
+```
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "telefone": "83999999999",
+  "tipoUsuario": "SURDO",
+  "status": "ATIVO"
+}
+```
+
+**Erros comuns:**
+- `401` – token ausente ou inválido
+- `404` – usuário não encontrado
+
+---
+
+### Upload
+
+#### POST `/uploads/media`
+
+**Descrição:** Faz upload de uma imagem para a API.
+
+**Autenticação:** Sim
+
+**Headers:**
+
+```http
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+```
+
+**Body:**
+- campo `file` com a imagem
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "url_imagem": "http://localhost:5000/uploads/arquivo-1712345678901.jpg"
+}
+```
+
+**Erros comuns:**
+- `400` – nenhuma imagem enviada
+- `500` – falha de processamento
+
+---
+
+### Estabelecimentos
+
+#### POST `/estabelecimentos`
+
+**Descrição:** Cria um novo estabelecimento.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "nome": "Loja Acessível",
+  "categoria": "Restaurante",
+  "fotoUrl": "https://exemplo.com/estabelecimento.jpg",
+  "localizacao": {
+    "type": "Point",
+    "coordinates": [-35.89, -7.12]
+  }
+}
+```
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nome": "Loja Acessível",
+  "categoria": "Restaurante",
+  "fotoUrl": "https://exemplo.com/estabelecimento.jpg",
+  "localizacao": {
+    "type": "Point",
+    "coordinates": [-35.89, -7.12]
+  },
+  "notaMedia": 0
+}
+```
+
+#### GET `/estabelecimentos/proximos`
+
+**Descrição:** Busca estabelecimentos próximos usando latitude, longitude e raio.
+
+**Autenticação:** Sim
+
+**Query params:**
+- `lat` – latitude atual
+- `lng` – longitude atual
+- `raio` – raio em metros (opcional)
+
+**Exemplo:**
+
+```http
+GET /estabelecimentos/proximos?lat=-7.12&lng=-35.89&raio=2000
+```
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+    "nome": "Loja Acessível",
+    "categoria": "Restaurante",
+    "localizacao": {
+      "type": "Point",
+      "coordinates": [-35.89, -7.12]
+    }
+  }
+]
+```
+
+#### GET `/estabelecimentos/:id`
+
+**Descrição:** Busca um estabelecimento pelo ID.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nome": "Loja Acessível",
+  "categoria": "Restaurante",
+  "fotoUrl": "https://exemplo.com/estabelecimento.jpg",
+  "localizacao": {
+    "type": "Point",
+    "coordinates": [-35.89, -7.12]
+  }
+}
+```
+
+#### PUT `/estabelecimentos/:id`
+
+**Descrição:** Atualiza um estabelecimento.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "nome": "Loja Acessível Atualizada",
+  "categoria": "Mercado"
+}
+```
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nome": "Loja Acessível Atualizada",
+  "categoria": "Mercado"
+}
+```
+
+#### DELETE `/estabelecimentos/:id`
+
+**Descrição:** Remove um estabelecimento.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "mensagem": "Deletado com sucesso"
+}
+```
+
+---
+
+### Avaliações
+
+#### POST `/places/reviews`
+
+**Descrição:** Registra uma avaliação de um estabelecimento.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "estabelecimentoId": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nota": 5,
+  "comentario": "Estabelecimento excelente para atendimento inclusivo."
+}
+```
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "mensagem": "Avaliação registrada",
+  "avaliacao": {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7a9",
+    "estabelecimentoId": "67b2c8d4e1a2b3c4d5e6f7a8",
+    "nota": 5,
+    "comentario": "Estabelecimento excelente para atendimento inclusivo.",
+    "dataAvaliacao": "2026-08-03T21:00:00.000Z"
+  }
+}
+```
+
+---
+
+### Chamadas / Solicitações de Atendimento
+
+#### POST `/calls/request`
+
+**Descrição:** Solicita atendimento emergencial com geolocalização.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "latitudeAtual": -7.12,
+  "longitudeAtual": -35.89,
+  "fotoContextoUrl": "https://exemplo.com/contexto.png"
+}
+```
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "id": "67b2c8d4e1a2b3c4d5e6f7aa",
+  "status": "AGUARDANDO"
+}
+```
+
+#### GET `/calls/:id/status`
+
+**Descrição:** Consulta o status da chamada.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "status": "EM_CURSO",
+  "linkWhatsapp": "https://wa.me/5583999999999"
+}
+```
+
+#### GET `/calls/pending`
+
+**Descrição:** Lista chamadas pendentes.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7aa",
+    "status": "AGUARDANDO",
+    "latitudeAtual": -7.12,
+    "longitudeAtual": -35.89,
+    "prioridade": "ALTA"
+  }
+]
+```
+
+#### PUT `/calls/:id/accept`
+
+**Descrição:** Aceita uma chamada pendente.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "mensagem": "Chamado aceito",
+  "chamado": {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7aa",
+    "status": "EM_CURSO"
+  },
+  "whatsappSolicitante": "83999999999",
+  "linkWhatsapp": "https://wa.me/5583999999999"
+}
+```
+
+#### PUT `/calls/:id/complete`
+
+**Descrição:** Finaliza uma chamada em andamento.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "mensagem": "Atendimento concluído",
+  "chamado": {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7aa",
+    "status": "FINALIZADA"
+  }
+}
+```
+
+---
+
+### Intérprete / Voluntário
+
+#### POST `/interpreter/onboarding`
+
+**Descrição:** Realiza o onboarding de um usuário intérprete/voluntário.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "experiencia": "Interprete em eventos comunitários",
+  "disponibilidade": "Segunda a sexta, 08:00 às 18:00"
+}
+```
+
+**Resposta (`201 Created`):**
+
+```json
+{
+  "mensagem": "Cadastro de voluntário realizado com sucesso",
+  "voluntario": {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7ab",
+    "idUsuario": "67b2c8d4e1a2b3c4d5e6f7a8",
+    "experiencia": "Interprete em eventos comunitários",
+    "disponibilidade": "Segunda a sexta, 08:00 às 18:00",
+    "statusOnline": false
+  }
+}
+```
+
+#### PUT `/interpreter/status`
+
+**Descrição:** Atualiza o status online/offline do intérprete.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "online": true
+}
+```
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7ab",
+  "idUsuario": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "statusOnline": true
+}
+```
+
+---
+
+### Usuário / Localização
+
+#### PUT `/users/:id/location`
+
+**Descrição:** Atualiza a localização do usuário.
+
+**Autenticação:** Sim
+
+**Body (JSON):**
+
+```json
+{
+  "latitude": -7.12,
+  "longitude": -35.89
+}
+```
+
+**Resposta (`200 OK`):**
+
+```json
+{
+  "_id": "67b2c8d4e1a2b3c4d5e6f7a8",
+  "nome": "João Silva",
+  "latitude": -7.12,
+  "longitude": -35.89
+}
+```
+
+---
+
+### Administração
+
+#### GET `/admin/dashboards/accessibility-heatmap`
+
+**Descrição:** Retorna registros de chamadas com coordenadas para montar um mapa de calor.
+
+**Autenticação:** Sim, administrador
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7aa",
+    "latitudeAtual": -7.12,
+    "longitudeAtual": -35.89,
+    "dataAbertura": "2026-08-03T21:00:00.000Z",
+    "status": "AGUARDANDO"
+  }
+]
+```
+
+#### GET `/admin/dashboards/critical-locations`
+
+**Descrição:** Lista regiões críticas com maior volume de chamados.
+
+**Autenticação:** Sim, administrador
+
+**Query params:**
+- `limite` – valor mínimo para considerar uma área crítica
+
+**Exemplo:**
+
+```http
+GET /admin/dashboards/critical-locations?limite=3
+```
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": {
+      "lat": -7.12,
+      "lng": -35.89
+    },
+    "totalChamados": 8
+  }
+]
+```
+
+---
+
+### Notificações
+
+#### GET `/notificacao/recebidas/:id`
+
+**Descrição:** Busca notificações recebidas por um usuário.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7ac",
+    "mensagem": "Nova chamada disponível",
+    "visualizada": false
+  }
+]
+```
+
+#### GET `/notificacao/enviadas/:id`
+
+**Descrição:** Busca notificações enviadas por um usuário.
+
+**Autenticação:** Sim
+
+**Resposta (`200 OK`):**
+
+```json
+[
+  {
+    "_id": "67b2c8d4e1a2b3c4d5e6f7ad",
+    "mensagem": "Você aceitou uma solicitação",
+    "visualizada": true
+  }
+]
+```

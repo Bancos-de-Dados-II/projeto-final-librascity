@@ -1,19 +1,15 @@
-import express, { Request, Response, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import { Voluntario } from '../models/VoluntarioModel';
 import { Usuario } from '../models/UsuarioModel';
 import { auth } from '../middleware/auth';
 import { syncVoluntario } from '../services/postgres/voluntarioService';
+import { statusOnlineSchema, validate, voluntarioSchema } from '../middleware/validation';
 
 const router: Router = express.Router();
 
-router.post('/onboarding', auth, async (req: Request, res: Response): Promise<void> => {
+router.post('/onboarding', auth, validate(voluntarioSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { experiencia, disponibilidade } = req.body;
-
-    if (!experiencia || !disponibilidade) {
-      res.status(400).json({ erro: 'experiencia e disponibilidade são obrigatórios' });
-      return;
-    }
 
     const usuario = await Usuario.findById(req.user?.id);
     if (!usuario) {
@@ -45,18 +41,13 @@ router.post('/onboarding', auth, async (req: Request, res: Response): Promise<vo
     await voluntario.save();
     res.status(201).json({ mensagem: 'Cadastro de voluntário realizado com sucesso', voluntario });
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 
-router.put('/status', auth, async (req: Request, res: Response): Promise<void> => {
+router.put('/status', auth, validate(statusOnlineSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { online } = req.body;
-
-    if (typeof online !== 'boolean') {
-      res.status(400).json({ erro: 'Campo "online" deve ser true ou false' });
-      return;
-    }
 
     const voluntario = await Voluntario.findOneAndUpdate(
       { idUsuario: String(req.user?.id) },
@@ -71,7 +62,7 @@ router.put('/status', auth, async (req: Request, res: Response): Promise<void> =
 
     res.json(voluntario);
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 

@@ -1,11 +1,12 @@
-import express, { Request, Response, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import { Estabelecimento } from '../models/EstabelecimentoModel';
 import { syncEstabelecimento, deleteEstabelecimento } from '../services/postgres/estabelecimentoService';
 import { getCache, setCache, invalidateCache } from '../services/redis/cacheService';
+import { estabelecimentoSchema, estabelecimentoUpdateSchema, validate } from '../middleware/validation';
 
 const router: Router = express.Router();
 
-router.post('/', async (req: Request, res: Response): Promise<void> => {
+router.post('/', validate(estabelecimentoSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const novo = new Estabelecimento(req.body);
     await novo.save();
@@ -13,7 +14,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     await invalidateCache('proximos:*');
     res.status(201).json(novo);
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 
@@ -82,7 +83,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.put('/:id', async (req: Request, res: Response): Promise<void> => {
+router.put('/:id', validate(estabelecimentoUpdateSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id = String(req.params.id);
     const atualizado = await Estabelecimento.findByIdAndUpdate(
@@ -98,7 +99,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<void> => {
     await invalidateCache('proximos:*');
     res.json(atualizado);
   } catch (err: any) {
-    res.status(400).json({ erro: err.message });
+    next(err);
   }
 });
 
