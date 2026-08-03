@@ -90,6 +90,47 @@
                 </div>
                 <div id="map" class="mapa-area">Carregando mapa...</div>
             </section>
+
+            <section class="card formulario-card">
+                <div class="section-header">
+                    <div>
+                        <h2>Cadastrar estabelecimento</h2>
+                        <p>Adicione um novo local acessível com foto da fachada.</p>
+                    </div>
+                    <span class="badge info">Surdo</span>
+                </div>
+
+                <form id="cadastroEstabelecimentoForm" class="form-estabelecimento">
+                    <label class="field-label" for="nomeEstabelecimento">Nome do estabelecimento</label>
+                    <input type="text" id="nomeEstabelecimento" placeholder="Ex.: Loja Acessível" required>
+
+                    <label class="field-label" for="categoriaEstabelecimento">Categoria</label>
+                    <select id="categoriaEstabelecimento" required>
+                        <option value="">Selecione</option>
+                        <option value="Saúde">Saúde</option>
+                        <option value="Educação">Educação</option>
+                        <option value="Comércio">Comércio</option>
+                        <option value="Alimentação">Alimentação</option>
+                        <option value="Órgão Público">Órgão Público</option>
+                        <option value="Lazer">Lazer</option>
+                    </select>
+
+                    <label class="field-label">Localização</label>
+                    <div class="location-box" id="localizacaoEstabelecimentoTexto">Clique no mapa para capturar latitude/longitude.</div>
+
+                    <label class="field-label" for="fotoEstabelecimentoInput">Foto da fachada</label>
+                    <label class="file-label" for="fotoEstabelecimentoInput">
+                        <i class="fa-regular fa-image"></i> Selecionar imagem
+                    </label>
+                    <input type="file" id="fotoEstabelecimentoInput" accept="image/jpeg,image/png,image/gif">
+                    <img id="previewFotoEstabelecimento" class="img-preview hidden" alt="Preview da foto do estabelecimento">
+
+                    <button class="btn-primary" type="submit" id="submitCadastroEstabelecimentoBtn">
+                        <i class="fa-solid fa-location-dot"></i> Cadastrar estabelecimento
+                    </button>
+                    <p class="form-message" id="cadastroEstabelecimentoMessage"></p>
+                </form>
+            </section>
         </main>
     </div>
 

@@ -1,23 +1,18 @@
 import express, { Request, Response, Router } from 'express';
 import { auth } from '../middleware/auth';
+import { uploadSingle } from '../middleware/upload';
 
 const router: Router = express.Router();
 
-router.post('/media', auth, async (req: Request, res: Response): Promise<void> => {
+router.post('/media', auth, uploadSingle, (req: Request, res: Response): void => {
   try {
-    const { nomeArquivo, tipo } = req.body;
-
-    if (!nomeArquivo) {
-      res.status(400).json({ erro: 'nomeArquivo é obrigatório' });
+    if (!req.file) {
+      res.status(400).json({ erro: 'Nenhuma imagem enviada' });
       return;
     }
 
-    const urlSimulada = `https://storage.librascity.fake/${Date.now()}-${nomeArquivo}`;
-
-    res.status(201).json({
-      url_imagem: urlSimulada,
-      tipo: tipo || 'image',
-    });
+    const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    res.status(201).json({ url_imagem: url });
   } catch (err: any) {
     res.status(500).json({ erro: err.message });
   }

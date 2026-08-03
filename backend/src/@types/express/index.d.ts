@@ -8,6 +8,7 @@ declare global {
                 email: string;
                 tipoUsuario: string;
             };
+            file?: Express.Multer.File;
         }
     }
 }

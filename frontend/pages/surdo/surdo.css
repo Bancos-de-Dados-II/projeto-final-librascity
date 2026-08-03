@@ -153,7 +153,8 @@ textarea {
 
 input[type="text"],
 textarea,
-input[type="range"] {
+input[type="range"],
+select {
     width: 100%;
     border-radius: 16px;
     border: 1px solid #ddd;
@@ -164,7 +165,8 @@ input[type="range"] {
 }
 
 input[type="text"]:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
     border-color: #0F5A43;
 }
 
@@ -357,6 +359,45 @@ textarea {
     background: #fafafa;
     padding: 16px;
     color: #4d4d4d;
+}
+
+.form-estabelecimento {
+    display: grid;
+    gap: 12px;
+}
+
+.field-label {
+    display: block;
+    color: #24443a;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.location-box {
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px dashed #90a89f;
+    background: #f7fbf8;
+    color: #46685a;
+}
+
+.form-message {
+    margin: 0;
+    color: #0F5A43;
+    font-weight: 600;
+}
+
+.img-preview {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid #d8ece2;
+    background: #f9fbfa;
+}
+
+.hidden {
+    display: none;
 }
 
 .modal {
