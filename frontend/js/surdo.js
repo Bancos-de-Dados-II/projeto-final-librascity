@@ -37,6 +37,14 @@ const reviewPhotoInput = document.getElementById('reviewPhotoInput');
 const reviewMessage = document.getElementById('reviewMessage');
 const reviewStars = document.getElementById('reviewStars');
 const toastMessage = document.getElementById('toastMessage');
+const cadastroEstabelecimentoForm = document.getElementById('cadastroEstabelecimentoForm');
+const nomeEstabelecimento = document.getElementById('nomeEstabelecimento');
+const categoriaEstabelecimento = document.getElementById('categoriaEstabelecimento');
+const fotoEstabelecimentoInput = document.getElementById('fotoEstabelecimentoInput');
+const previewFotoEstabelecimento = document.getElementById('previewFotoEstabelecimento');
+const localizacaoEstabelecimentoTexto = document.getElementById('localizacaoEstabelecimentoTexto');
+const cadastroEstabelecimentoMessage = document.getElementById('cadastroEstabelecimentoMessage');
+const submitCadastroEstabelecimentoBtn = document.getElementById('submitCadastroEstabelecimentoBtn');
 
 let map;
 let markersLayer;
@@ -44,6 +52,7 @@ let selectedReviewPlace = null;
 let selectedRating = 0;
 let activeCoordinates = { lat: -6.8877, lng: -38.8822 };
 let latestResults = [];
+let selectedEstabelecimentoCoordinates = null;
 
 function showToast(message) {
     toastMessage.textContent = message;
@@ -59,6 +68,14 @@ function initMap(lat = activeCoordinates.lat, lng = activeCoordinates.lng) {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
         markersLayer = L.layerGroup().addTo(map);
+
+        map.on('click', event => {
+            selectedEstabelecimentoCoordinates = {
+                lat: event.latlng.lat,
+                lng: event.latlng.lng
+            };
+            localizacaoEstabelecimentoTexto.textContent = `Latitude: ${selectedEstabelecimentoCoordinates.lat.toFixed(5)} | Longitude: ${selectedEstabelecimentoCoordinates.lng.toFixed(5)}`;
+        });
     } else {
         map.setView([lat, lng], 13);
     }
@@ -299,21 +316,23 @@ async function enviarAvaliacao() {
 }
 
 async function uploadImage(file) {
-    try {
-        const response = await fetch(`${API_BASE}/uploads/media`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ nomeArquivo: file.name, tipo: file.type })
-        });
-        const data = await response.json();
-        return data.url_imagem || null;
-    } catch (error) {
-        console.warn('Upload de imagem falhou', error);
-        return null;
+    const formData = new FormData();
+    formData.append('imagem', file);
+
+    const response = await fetch(`${API_BASE}/uploads/media`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+        body: formData
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+        throw new Error(data.erro || 'Falha no upload da imagem');
     }
+
+    return data.url_imagem || null;
 }
 
 async function acionarPanico() {
@@ -407,6 +426,88 @@ function iniciarPolling(chamadoId) {
     }, 5000);
 }
 
+function mostrarPreviewImagem(file) {
+    if (!file) {
+        previewFotoEstabelecimento.classList.add('hidden');
+        previewFotoEstabelecimento.removeAttribute('src');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        previewFotoEstabelecimento.src = reader.result;
+        previewFotoEstabelecimento.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+
+async function cadastrarEstabelecimentoComImagem(event) {
+    event.preventDefault();
+
+    if (!selectedEstabelecimentoCoordinates) {
+        cadastroEstabelecimentoMessage.textContent = 'Clique no mapa para definir a localização do estabelecimento.';
+        return;
+    }
+
+    const nome = nomeEstabelecimento.value.trim();
+    const categoria = categoriaEstabelecimento.value.trim();
+    const imagemFile = fotoEstabelecimentoInput.files[0];
+
+    if (!nome || !categoria) {
+        cadastroEstabelecimentoMessage.textContent = 'Preencha nome e categoria para continuar.';
+        return;
+    }
+
+    submitCadastroEstabelecimentoBtn.disabled = true;
+    cadastroEstabelecimentoMessage.textContent = 'Enviando imagem...';
+
+    try {
+        let fotoUrl = '';
+        if (imagemFile) {
+            fotoUrl = await uploadImage(imagemFile);
+        }
+
+        const payload = {
+            nome,
+            categoria,
+            fotoUrl,
+            localizacao: {
+                type: 'Point',
+                coordinates: [selectedEstabelecimentoCoordinates.lng, selectedEstabelecimentoCoordinates.lat]
+            }
+        };
+
+        cadastroEstabelecimentoMessage.textContent = 'Cadastrando estabelecimento...';
+        const response = await fetch(`${API_BASE}/estabelecimentos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.erro || 'Erro ao cadastrar estabelecimento');
+        }
+
+        cadastroEstabelecimentoMessage.textContent = 'Estabelecimento cadastrado com sucesso!';
+        showToast('Estabelecimento cadastrado com sucesso.');
+        cadastroEstabelecimentoForm.reset();
+        previewFotoEstabelecimento.classList.add('hidden');
+        previewFotoEstabelecimento.removeAttribute('src');
+        localizacaoEstabelecimentoTexto.textContent = 'Clique no mapa para capturar latitude/longitude.';
+        selectedEstabelecimentoCoordinates = null;
+        await buscarEstabelecimentos(activeCoordinates.lat, activeCoordinates.lng);
+    } catch (error) {
+        console.error(error);
+        cadastroEstabelecimentoMessage.textContent = error.message || 'Erro ao cadastrar estabelecimento.';
+    } finally {
+        submitCadastroEstabelecimentoBtn.disabled = false;
+    }
+}
+
 function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
@@ -435,6 +536,8 @@ reviewStars.addEventListener('click', event => {
 closeReviewModal.addEventListener('click', fecharModal);
 cancelReviewBtn.addEventListener('click', fecharModal);
 submitReviewBtn.addEventListener('click', enviarAvaliacao);
+cadastroEstabelecimentoForm.addEventListener('submit', cadastrarEstabelecimentoComImagem);
+fotoEstabelecimentoInput.addEventListener('change', event => mostrarPreviewImagem(event.target.files[0]));
 
 buscarBtn.addEventListener('click', () => buscarEstabelecimentos(activeCoordinates.lat, activeCoordinates.lng));
 buscarEnderecoBtn.addEventListener('click', async () => {
