@@ -5,8 +5,47 @@ import { gerarLinkWhatsApp } from '../services/business/whatsappService';
 import { auth } from '../middleware/auth';
 import { notificarSolicitacaoAceita } from '../services/business/notificacaoService';
 import { solicitacaoAtendimentoSchema, validate } from '../middleware/validation';
+import { listarChamadasUsuarioLogado, listarTodasChamadasAdmin, cancelarChamado } from '../services/business/chamadaEmergenciaService';
 
 const router: Router = express.Router();
+
+router.get('/', auth, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const chamados = await listarChamadasUsuarioLogado(String(req.user?.id), String(req.user?.tipoUsuario));
+    res.json(chamados);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+router.get('/admin', auth, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    if (req.user?.tipoUsuario !== 'ADMIN') {
+      res.status(403).json({ erro: 'Acesso negado' });
+      return;
+    }
+
+    const chamados = await listarTodasChamadasAdmin();
+    res.json(chamados);
+  } catch (err: any) {
+    next(err);
+  }
+});
+
+router.delete('/:id', auth, async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = String(req.params.id);
+    const chamado = await cancelarChamado(id, String(req.user?.id));
+    if (!chamado) {
+      res.status(404).json({ erro: 'Chamado não encontrado' });
+      return;
+    }
+
+    res.json({ mensagem: 'Chamado cancelado', chamado });
+  } catch (err: any) {
+    next(err);
+  }
+});
 
 router.post('/request', auth, validate(solicitacaoAtendimentoSchema), async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
