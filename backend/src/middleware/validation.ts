@@ -28,6 +28,8 @@ export const avaliacaoSchema = z.object({
   comentario: z.string().optional().or(z.literal('')),
 });
 
+export const avaliacaoUpdateSchema = avaliacaoSchema.partial();
+
 export const solicitacaoAtendimentoSchema = z.object({
   latitudeAtual: z.number({ message: 'latitudeAtual deve ser um número' }),
   longitudeAtual: z.number({ message: 'longitudeAtual deve ser um número' }),

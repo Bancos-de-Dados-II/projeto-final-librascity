@@ -4,6 +4,7 @@ interface IAvaliacaoAtendimento extends Document
 {
     idAvaliacao: string;
     estabelecimentoId: string;
+    usuarioId?: string;
     nota: number;
     comentario: string;
     dataAvaliacao: Date;
@@ -19,6 +20,11 @@ const avaliacaoSchema = new Schema<IAvaliacaoAtendimento>(
          estabelecimentoId: {
             type: String,
             required: true,
+        },
+
+        usuarioId: {
+            type: String,
+            required: false,
         },
 
         nota: {

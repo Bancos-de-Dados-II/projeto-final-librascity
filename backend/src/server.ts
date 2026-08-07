@@ -35,7 +35,7 @@ pgPool.connect()
   })
   .catch(err => console.error('Erro no PostgreSQL:', err.message));
 
-const redis = new Redis(process.env.REDIS_URL!);
+const redis = new Redis(process.env.REDIS_URI!);
 redis.ping()
   .then(() => console.log('Conectado ao Redis'))
   .catch(err => console.error('Erro no Redis:', err));
